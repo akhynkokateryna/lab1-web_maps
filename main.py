@@ -1,7 +1,9 @@
 "main.py"
 
 import argparse
+import math
 import folium
+from geopy import Nominatim
 
 
 def parser_creation():
@@ -16,17 +18,18 @@ def parser_creation():
     return parser.parse_args()
 
 
-def read_data(args):
+def read_data(year, latitude, longitude, path_to_data):
     """Reads data from file and creates list with films of the
-    needed year"""
-    with open(args.path_to_data, 'r', encoding='utf-8') as file:
-        count =0
+    needed year
+    """
+    with open(path_to_data, 'r', encoding='utf-8') as file:
+        count = 0
         films = []
         for line in file:
             film = []
             line = line.split("\t")
-            
-            if args.year not in line:
+
+            if year not in line:
                 continue
 
             if count >= 14:    #not to include first lines of the file without important info
@@ -50,10 +53,42 @@ def read_data(args):
     return films
 
 
+def get_coordinates(data, geolocator):
+    """Gets coordinates from location of the place"""
+    for num, location in enumerate(data):
+        coord = geolocator.geocode(location[2], timeout = None)
+        if coord is None:
+            continue
+        data[num].append((coord.latitude, coord.longitude))
+    return data
+
+
+def get_distance(year, latitude, longitude, coords):
+    """Gets distances from location of the place"""
+    for num, _ in enumerate(coords):
+        data[num].append(12734.889 * math.asin(math.sqrt((math.sin
+        ((coords[num][3][0]-latitude)/2)) ** 2
+        + math.cos(coords[num][3][0]) * math.cos(latitude)
+        * (math.sin((longitude-coords[num][3][1])/2)) ** 2)))
+    return coords
+
+
+# def 
+
+
 if __name__ == '__main__':
+    geolocator = Nominatim(user_agent="main.py")
     args = parser_creation()
+    year = args.year
+    latitude = args.latitude
+    longitude = args.longitude
+    path_to_data = args.path_to_data
+
     new_map = folium.Map()
-    data = read_data(args)
+    data = read_data(year, latitude, longitude, path_to_data)
+    coords = get_coordinates(data, geolocator)
+    distances = get_distance(year, latitude, longitude, coords)
+    # distances = sorted(distances, key=lambda x: x[4])
+    print(data)
     
-    
-    new_map.save('your_map.html')
+    # new_map.save('your_map.html')
