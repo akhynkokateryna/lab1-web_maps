@@ -51,7 +51,11 @@ def read_data(year, path_to_data):
 
             count += 1
 
+<<<<<<< HEAD
             if year not in film:
+=======
+            if year not in line:
+>>>>>>> 0c4dfc1764bfbc9b5e1ff2161e064c4676146e0c
                 continue
 
             if len(film) != 0:
