@@ -51,12 +51,11 @@ def read_data(year, path_to_data):
 
             count += 1
 
-            # if year not in line:
-            #     continue
+            if year not in line:
+                continue
 
             if len(film) != 0:
                 films.append(film)
-    print(films)
     return films
 
 
