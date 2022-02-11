@@ -110,9 +110,10 @@ if __name__ == '__main__':
     coords1 = get_coordinates(data1, geolocator1)
     distances = get_distance(latitude1, longitude1, coords1)
     try:
-        distances = sorted(distances, key=lambda x: x[4])[:9]
+        distances = sorted(distances, key=lambda x: x[4])
     except IndexError:
         pass
+    distances = distances[:9]
     marker_layers(distances)
 
     new_map.add_child(folium.LayerControl())
