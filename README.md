@@ -1,5 +1,5 @@
 # Creation of web maps
-The file takes four arguments: year, latitude, longitude and path to database with films.
+The file takes four arguments: year when the film was produced, latitude, longitude, and path to database with films.
 Then is created a web map with 8 marks with filming locations that were the closest to given location.
 
 Example:
